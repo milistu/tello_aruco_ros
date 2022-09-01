@@ -1,0 +1,13 @@
+<launch>
+
+        <!-- Tello controller -->
+        <node name="tello" pkg="tello_ros" type="tello.py" />
+
+        <!-- Image Procesing  -->
+        <node name="imgProc" pkg="tello_ros" type="imgProc.py" />
+        
+        <!-- Run Rviz  -->
+        
+        <node type="rviz" name="rviz" pkg="rviz" args="-d $(find tello_ros)/rviz/rviz_conf.rviz" />
+        
+</launch>
