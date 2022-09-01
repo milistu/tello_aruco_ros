@@ -1,5 +1,0 @@
-tello_ros
-/home/studen/catkin_tello_ws/devel/.private/tello_ros/cmake.lock /home/studen/catkin_tello_ws/devel/./cmake.lock
-/home/studen/catkin_tello_ws/devel/.private/tello_ros/share/tello_ros/cmake/tello_rosConfig-version.cmake /home/studen/catkin_tello_ws/devel/share/tello_ros/cmake/tello_rosConfig-version.cmake
-/home/studen/catkin_tello_ws/devel/.private/tello_ros/share/tello_ros/cmake/tello_rosConfig.cmake /home/studen/catkin_tello_ws/devel/share/tello_ros/cmake/tello_rosConfig.cmake
-/home/studen/catkin_tello_ws/devel/.private/tello_ros/lib/pkgconfig/tello_ros.pc /home/studen/catkin_tello_ws/devel/lib/pkgconfig/tello_ros.pc
