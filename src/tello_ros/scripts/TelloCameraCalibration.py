@@ -130,9 +130,6 @@ ret, cameraMatrix, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints
 
 f= open(cameraCalibPath + "CameraCalibrationParameters.txt","w+")
 
-# print("Camera Calibrated: ", ret)
-# f.write("Camera Calibrated:\n ")
-# f.write(str(ret))
 print("\n\nCamera Matrix:\n", cameraMatrix)
 f.write("Camera Matrix:\n ")
 f.write(str(cameraMatrix))
