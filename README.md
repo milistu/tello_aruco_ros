@@ -1,6 +1,7 @@
 ## aruco_tag_tracking_tello_ros
 # Plug &amp; play program for controlling Tello drone with aruco tags
-![Overview](https://github.com/Studen-M/aruco_tag_tracking_tello_ros/tree/master/assets/ProjectOverview.png)
+![Overview](ProjectOverview.png)
+<img align="center" src="assets/ProjectOverview.png" width="300" > ![](ssets/ProjectOverview.png)
 ### Project requirements:
 - Ubuntu (20.04.3) with ROS1 noetic
 - Dji Tello drone
