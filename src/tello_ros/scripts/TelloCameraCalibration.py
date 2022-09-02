@@ -24,7 +24,7 @@ imgPath = imgPath + "/cameraCalibration/images/"
 
 # True = whole proces will be done
 # False = if you already taken the images from Tello and you wan't to run the calibration again
-if False:
+if True:
 
     # CONNECT TO TELLO
     me = Tello()
@@ -139,42 +139,12 @@ f.write(str(cameraMatrix))
 print("\n\nDistortion Paramerets:\n", dist)
 f.write("\n\nDistortion Paramerets:\n")
 f.write(str(dist))
-# print("\n\nRotation Vectors:\n", rvecs)
-# f.write("\n\nRotation Vectors:\n")
-# f.write(str(rvecs))
-# print("\n\nTranslation Vectors:\n", tvecs)
-# f.write("\n\nTranslation Vectors:\n")
-# f.write(str(tvecs))
-
-# # Calibration data to be written as .json
-# CalibData = {
-#     "Camera_Matrix" : cameraMatrix.tolist(),
-#     "Distortion_Parameters" : dist.tolist()
-# }
-# # Serializing json
-# json_object = json.dumps(CalibData, indent = 4)
-# # Write to CameraCalibrationParamerets.json
-# with open(cameraCalibPath + "CamCalibParam.json", "w+") as outfile:
-#     outfile.write(json_object)
 
 # Calibration data to be written as .json
 cv_file = cv2.FileStorage(cameraCalibPath + "CamCalibParam.json", cv2.FILE_STORAGE_WRITE)
 cv_file.write("Camera_Matrix", cameraMatrix)
 cv_file.write("Distortion_Parameters", dist)
 cv_file.release()
-
-# cv_file = cv2.FileStorage(cameraCalibPath + "CamCalibParamCV.json", cv2.FILE_STORAGE_READ)
-#
-# print("\nCamera_Matrix: ", cv_file.getNode("Camera_Matrix").mat())
-# print("\nDistortion_Parameters: ", cv_file.getNode("Distortion_Parameters").mat())
-
-# # Read json file
-# with open(cameraCalibPath + "CamCalibParam.json", 'r') as openfile:d
-#     # Reding from json file
-#     json_object = json.load(openfile)
-# print("AJ DIDIT:\n", json_object["Camera_Matrix"])
-#
-# print("\nNIZ:\n", np.array(json_object["Camera_Matrix"]))
 
 # Reprojection Error
 mean_error = 0
@@ -185,6 +155,4 @@ for i in range(len(objpoints)):
     mean_error += error
 totalError = mean_error/len(objpoints)
 print( "\nTotal error: {}".format(totalError))
-# f.write("\n\nTotal error:\n")
-# f.write(str(totalError))
 f.close()
