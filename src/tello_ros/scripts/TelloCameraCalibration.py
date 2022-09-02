@@ -4,8 +4,6 @@ import cv2
 import numpy as np
 import glob
 import rospkg
-import json
-import os
 
 
 ################ CODE FOR TAKING IMAGES FROM TELLO VIDEO FEED ################
