@@ -32,7 +32,7 @@ me.streamon()
 
 def exeComm(msg):
     rospy.loginfo('Command received...')
-    #print(msg.data)
+    # print(msg.data)
 
     if msg.data == 13:
         # Tag with ID 10 detected -> landing
@@ -72,7 +72,6 @@ def pubSubNode():
     rospy.init_node('TELLO_video_pub_py', anonymous=True, disable_signals=True)
 
     rate = rospy.Rate(30)
-    # cap = cv2.VideoCapture(0)
 
     br = CvBridge()
 

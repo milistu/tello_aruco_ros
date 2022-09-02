@@ -12,9 +12,14 @@ frameWidth = 640
 frameHeight = 480
 deadZone = 80 #100
 
+### Global variables ###
 global imgContour
 global dir
 dir = 0
+global mover
+mover = 15
+global circleRadius
+circleRadius = 70
 
 ### TELLO camera parameters
 
@@ -59,7 +64,6 @@ def dispay(img):
 
     return img
 
-
 def centerOfmarker(corners):
     k1 = (corners[0][0][0][1] - corners[0][0][2][1])/(corners[0][0][0][0] - corners[0][0][2][0])
     k2 = (corners[0][0][3][1] - corners[0][0][1][1])/(corners[0][0][3][0] - corners[0][0][1][0])
@@ -69,10 +73,7 @@ def centerOfmarker(corners):
     centerY = k1*centerX + b1
 
     return int(centerX), int(centerY)
-global mover
-mover = 15
-global circleRadius
-circleRadius = 70
+
 def pilotControl(imgContour, cx, cy, transform_translation_z, ids):
     global dir
     global mover
@@ -93,7 +94,6 @@ def pilotControl(imgContour, cx, cy, transform_translation_z, ids):
         cv2.circle(imgContour, (int(frameWidth/2), int(frameHeight/2)), circleRadius - 35, (0, 255, 0), 5)
         cv2.circle(imgContour, (int(frameWidth/2), int(frameHeight/2)), 20, (0, 255, 0), -1)
         circleRadius += 1
-        # cv2.rectangle(imgContour, (80*2, int(frameHeight / 2 - deadZone)),((int(frameWidth / 2) - deadZone) + 80*2, int(frameHeight / 2) + deadZone), (255, 0, 0), cv2.FILLED)
         dir = 10 # GO FORWARD
     elif (transform_translation_z < 0.4):
         cv2.putText(imgContour, " MOVING ", (-15, 80), font, 0.9, fontColor, 3)
@@ -103,7 +103,6 @@ def pilotControl(imgContour, cx, cy, transform_translation_z, ids):
         cv2.line(imgContour, (int(frameWidth/2) - dot, int(frameHeight/2) - dot), (int(frameWidth/2) + dot, int(frameHeight/2) + dot), (0, 255, 0), 8)
         cv2.line(imgContour, (int(frameWidth/2) + dot, int(frameHeight/2) - dot), (int(frameWidth/2) - dot, int(frameHeight/2) + dot), (0, 255, 0), 8)
         circleRadius -= 1
-        # cv2.rectangle(imgContour, (80*2, int(frameHeight / 2 - deadZone)),((int(frameWidth / 2) - deadZone) + 80*2, int(frameHeight / 2) + deadZone), (0, 0, 255), cv2.FILLED)
         dir = 11 # GO BACKWARD
     elif (cx < int(frameWidth / 2) - deadZone):
         cv2.putText(imgContour, " TURNING ", (-15, 80), font, 0.9, fontColor, 3)
@@ -119,7 +118,6 @@ def pilotControl(imgContour, cx, cy, transform_translation_z, ids):
         arrowHorizontalLeft[:, :, 0] += cxArrow
         arrowHorizontalLeft[:, :, 1] += cyArrow
         cv2.drawContours(imgContour, arrowHorizontalLeft, -1, (0, 255, 0), -1)
-        # cv2.rectangle(imgContour, (0, int(frameHeight / 2 - deadZone)),(int(frameWidth / 2) - deadZone, int(frameHeight / 2) + deadZone), (0, 0, 255), cv2.FILLED)
         dir = 1
     elif (cx > int(frameWidth / 2) + deadZone):
         cv2.putText(imgContour, " TURNING ", (-15, 80), font, 0.9, fontColor, 3)
@@ -135,7 +133,6 @@ def pilotControl(imgContour, cx, cy, transform_translation_z, ids):
         arrowHorizontalRight[:, :, 0] += cxArrow
         arrowHorizontalRight[:, :, 1] += cyArrow
         cv2.drawContours(imgContour, arrowHorizontalRight, -1, (0, 255, 0), -1)
-        # cv2.rectangle(imgContour, (int(frameWidth / 2 + deadZone), int(frameHeight / 2 - deadZone)),(frameWidth, int(frameHeight / 2) + deadZone), (0, 0, 255), cv2.FILLED)
         dir = 2
     elif (cy < int(frameHeight / 2) - deadZone):
         cv2.putText(imgContour, " GOING ", (-15, 80), font, 0.9, fontColor, 3)
@@ -151,7 +148,6 @@ def pilotControl(imgContour, cx, cy, transform_translation_z, ids):
         arrowVerticalUp[:, :, 0] += cxArrow
         arrowVerticalUp[:, :, 1] += cyArrow
         cv2.drawContours(imgContour, arrowVerticalUp, -1, (0, 255, 0), -1)
-        # cv2.rectangle(imgContour, (int(frameWidth / 2 - deadZone), 0),(int(frameWidth / 2 + deadZone), int(frameHeight / 2) - deadZone), (0, 0, 255), cv2.FILLED)
         dir = 3
     elif (cy > int(frameHeight / 2) + deadZone):
         cv2.putText(imgContour, " GOING ", (-15, 80), font, 0.9, fontColor, 3)
@@ -167,7 +163,6 @@ def pilotControl(imgContour, cx, cy, transform_translation_z, ids):
         arrowVerticalDown[:, :, 0] += cxArrow
         arrowVerticalDown[:, :, 1] += cyArrow
         cv2.drawContours(imgContour, arrowVerticalDown, -1, (0, 255, 0), -1)
-        # cv2.rectangle(imgContour, (int(frameWidth / 2 - deadZone), int(frameHeight / 2) + deadZone),(int(frameWidth / 2 + deadZone), frameHeight), (0, 0, 255), cv2.FILLED)
         dir = 4
     else:
         dir = 0
@@ -218,8 +213,9 @@ def processing(img):
     # If you can't find it, type id
     if ids is not None:
 
+        # Aruco function for pose estimation
         #rvec, tvec, _ = cv2.aruco.estimatePoseSingleMarkers(corners, 0.05, mtx, dist) # treba da budu nule jer je prethodno undistortovano proveri tacnost
-        #ovu funkciju izbaci, izracnaj na osnovu onoga sa casa , coskove -> matrica homografije -> poziciju i orjentaciju 
+        # My function for position estimation
         tvec = MyPoseEstimationOfSingleMarker(corners[0][0])
         # Estimate the attitude of each marker and return the values rvet and tvec --- different
         # from camera coeficcients
@@ -235,6 +231,7 @@ def processing(img):
         ###### DRAW ID #####
         cv2.putText(img, "Id: " + str(ids), (0,30), font, 1, (0,255,0),2,cv2.LINE_AA)
 
+        # Get center of AruCo tag
         centerX, centerY = centerOfmarker(corners)
         cv2.circle(img, (int(centerX),int(centerY)), 4, (255, 0, 255), 2)
 
