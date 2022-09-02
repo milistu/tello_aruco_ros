@@ -97,7 +97,7 @@ imgpoints = [] # 2d points in image plane.
 
 images = glob.glob(imgPath + '*.jpg')
 
-i = 0;
+i = 0
 for image in images:
 
     img = cv2.imread(image)
