@@ -3,6 +3,23 @@ In this project, we are controlling the DJI Tello drone with ROS and using its c
 <p align="center">
  <img align="center" src="assets/ProjectOverview.png" width="350" /> 
 </p>
+
+When the camera feed pick’s up the ArUco tag, depending on the location, the directions are given to the drone. The list of directions and actions are:
+- Landing
+<img align="center" src="assets/Landing.png" height="200" />
+
+- Move forward and backward
+<img align="center" src="assets/ForwardBackward.png" height="200" />
+
+
+- Move up and down
+<img align="center" src="assets/UpDown.png" height="200" />
+
+
+- Move left and right
+<img align="center" src="assets/LeftRight.png" height="200" />
+
+
 ### Project requirements:
 - Ubuntu (20.04.3) with ROS1 noetic
 - Dji Tello drone
