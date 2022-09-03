@@ -1,0 +1,6 @@
+devel_space: /home/studen/catkin_tello_ws/devel
+install: false
+install_space: /home/studen/catkin_tello_ws/install
+profile: default
+source_space: /home/studen/catkin_tello_ws/src
+workspace: /home/studen/catkin_tello_ws
