@@ -1,46 +1,50 @@
 # Plug &amp; play program for controlling Tello drone with aruco tags
-In this project, we are controlling the DJI Tello drone with ROS and using its camera to determine the pose of the ArUco marker which will be used to control the movement of our drone.
+The goal of this project is to use ROS to controll the DJI Tello drone. By previously determining the ArUco tag's pose through the drone's camera, we will be able to control the movement of our drone.
 <p align="center">
  <img align="center" src="assets/ProjectOverview.png" width="350" /> 
 </p>
 
-When the camera feed pick’s up the ArUco tag, depending on the location, the directions are given to the drone. The list of directions and actions are:
-- Landing - *only tag with **ID 10** will land the drone*
+The directions will be provided to the drone once the camera detects the ArUco tag. 
+
+Depending on the ArUco tag's detected location, the list of the possible directions and actions are:
+- Landing - *the landing of the drone can be done only by **ID 10** tag*
 > <img align="center" src="assets/Landing.png" height="200" />
 
-- Move forward and backward - *the drone will howere between the distance of 0.4 and 0.6 m*
+- Moving forward and backward - *that will cause the drone to hover between the 0.4 and 0.6 m distance*
 > <img align="center" src="assets/ForwardBackward.png" height="200" />
 
 
-- Move up and down
+- Moving up and down
 > <img align="center" src="assets/UpDown.png" height="200" />
 
 
-- Move left and right
+- Moving left and right
 > <img align="center" src="assets/LeftRight.png" height="200" />
 
 <hr style="border:2px solid gray">
 
 ## Project requirements:
 - Ubuntu (20.04.3) with ROS1 noetic
-- Dji Tello drone
+- DJI Tello drone
 - Printed [Chess Board](https://www.mrpt.org/downloads/camera-calibration-checker-board_9x7.pdf) for camera calibration
-- Two [ArUco tags](https://chev.me/arucogen/) from 4x4 dictionary, size 50mm:
-  - One for controlling the drone, any ID of your choice
-  - The other one is for landing (similar to an emergency stop), **must be ID 10**
+- Two [ArUco tags](https://chev.me/arucogen/) from 4x4 dictionary, both size 50mm:
+  - One for controlling the drone, which can be any ID of the user's choice
+  - One for landing (similar to an emergency stop), which **must be ID 10**, as previously mentioned
 <hr style="border:2px solid gray">
 
 ## Installing
-We have tested on Ubuntu 20.04.3 with ROS Noetic with an GeForce GTX 1050 Ti with Python 3.8. The code may work on other systems.
+*Disclaimer:* We have tested on Ubuntu 20.04.3 with ROS Noetic with an GeForce GTX 1050 Ti with Python 3.8, whereas the code has not been tested on other systems.
 <hr style="border:2px solid gray">
 
 The following steps describe the installation.
 
 1. **Install ROS**
 
-   Follow [these](http://wiki.ros.org/noetic/Installation/Ubuntu) instructions. 
+   By following [these](http://wiki.ros.org/noetic/Installation/Ubuntu) instructions. 
    
-2. **Create a catkin workspace** (if you do not already have one). To create a catkin workspace, follow these [instructions](http://wiki.ros.org/catkin/Tutorials/create_a_workspace):
+2. **Create a catkin workspace** (if the user already has one, this step can be skipped). 
+   
+   To create a catkin workspace, follow these [instructions](http://wiki.ros.org/catkin/Tutorials/create_a_workspace):
    ```
    $ mkdir -p ~/catkin_ws/src   # Replace "catkin_ws" with the name of your workspace
    $ cd ~/catkin_ws/
@@ -69,23 +73,22 @@ The following steps describe the installation.
 ## Running
 1. **Camera calibration**
 
-   - Turn on your drone and connect to Tello's wifi.
-   - Run these commands to start camera calibration:
+   - Turn on your drone and connect to Tello's Wi-Fi.
+   - Run the following commands to start camera calibration:
    ```
    $ cd ~/catkin_ws
    $ source devel/setup.bash
    $ rosrun tello_ros TelloCameraCalibration.py
    ```
-   - Take 8 images for camera calibration by pressing “s” (as save) on the keyboard. In the terminal will be printed “Image taken X” (X as the number of your image).
-   - After capturing all of the images required wait for the results, it may take a few moments. 
-   - You will get calibration parameters printed out in your terminal and also they will be written in a file called “CamCalibParam.json” that is created in the “cameraCalibration” folder. 
-     - The images used for calibration will be stored in the folder “cameraCalibration/images”, so if you want, you can rerun the calibration process with the same pictures but you need to put **“False”** in the if statement in line 25, to turn off Tello activation
-2. **Launch the project** 
+   - Take 8 images for camera calibration by pressing “S” (as *save*) on the keyboard. As a result, the words “Image taken *X”* (X as the number of your image) will be displayed in the terminal.
+   - A few moments after the pictures are taken, the calibration parameters will be written in the terminal, as well as in a file named “CamCalibParam.json” that will be automatically created in the “cameraCalibration” folder. 
+     - The images used for calibration will be stored in the folder “cameraCalibration/images”, so that the calibration process can be reruned with the same images. In that case, it will be necessary to add word **“False”** in the if statement in line 25, to turn off Tello activation.
+2. **Launching the project** 
 
-    For easily launching multiple ROS nodes we created a launch file called “tello_launch.launch” that you can run. The launch file will automatically run the roscore and all of the nodes with Rviz for visualization.
+    For easily launching multiple ROS nodes, run the launch file named “tello_launch.launch”. The launch file will automatically run the roscore and all of the nodes with Rviz for visualization.
    ```
    $ cd ~/catkin_ws/
    $ source devel/setup.bash
    $ roslaunch tello_ros tello_launch.launch  
    ```
-   Wait for image to appear and then you can try conntroling your drone with ArUco tags.
+   Once the image appears, the drone can be controlled with ArUco tags.
