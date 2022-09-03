@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/studen/catkin_tello_ws/install/setup.sh
