@@ -1,8 +1,0 @@
-prefix=/home/studen/catkin_tello_ws/install
-
-Name: tello_ros
-Description: Description of tello_ros
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

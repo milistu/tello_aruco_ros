@@ -1,1 +1,0 @@
-/home/studen/catkin_tello_ws/devel/.private/tello_ros/lib/pkgconfig/tello_ros.pc
